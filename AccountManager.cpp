@@ -22,10 +22,10 @@ void AccountManager::fileRead()
 	ifstream readFile("member.txt");
 
 	if (readFile.is_open()) {
-		string id, password;
+		string id, password, name, phone;
 		int money, remainingTime;
-		while (readFile >> id >> password >> money >> remainingTime)
-			vec->push_back(new User(id, password, money, remainingTime));
+		while (readFile >> id >> password >> name >> phone >> money >> remainingTime)
+			vec->push_back(new User(id, password, name, phone, money, remainingTime));
 	}
 	// 파일이 존재하지 않는 경우, member.txt를 새로 생성한다.
 	else readFile.open("member.txt", ios::out | ios::trunc);
@@ -39,7 +39,7 @@ void AccountManager::fileWrite()
 	if (writeFile.is_open()) {
 		for (auto i : *vec)
 			if (i->getType().compare("Admin"))
-				writeFile << i->getId() << '\t' << i->getPassword() << '\t' << i->getMoney() << '\t' << i->getRemainingTime() << endl;
+				writeFile << i->getId() << '\t' << i->getPassword() << '\t' << i->getName() << '\t' << i->getPhone() << '\t' << i->getMoney() << '\t' << i->getRemainingTime() << endl;
 		writeFile.close();
 	}
 	else cout << "파일을 여는 도중 에러가 발생하여 쓸 수 없었습니다." << endl;
@@ -87,7 +87,7 @@ void AccountManager::logout(Account* pAccount)
 
 void AccountManager::registerAccount()
 {
-	string id, password;
+	string id, password, name, phone;
 
 	while (true) {
 		cout << "* 아이디: "; cin >> id;
@@ -95,13 +95,15 @@ void AccountManager::registerAccount()
 		else break;
 	}
 	cout << "* 비밀번호: "; cin >> password;
+	cout << "* 이름: "; cin >> name;
+	cout << "* 전화번호: "; cin >> phone;
 	vec->push_back(new User(id, password));
 	cout << "회원가입이 완료되었습니다." << endl << endl;
 }
 
 void AccountManager::addItem()
 {
-	string id, password;
+	string id, password, name, phone;
 
 	cout << "* 추가할 계정의 아이디: "; cin >> id;
 	if (search(id) != nullptr)
@@ -110,9 +112,11 @@ void AccountManager::addItem()
 		return;
 	}
 	cout << "* 추가할 계정의 비밀번호: "; cin >> password;
+	cout << "* 추가할 계정의 이름: "; cin >> name;
+	cout << "* 추가할 계정의 전화번호: "; cin >> phone;
 	cout << "* 계정 " << id << "이 목록에 추가되었습니다." << endl << endl;
 
-	(*vec).push_back(new User(id, password));
+	(*vec).push_back(new User(id, password, name, phone));
 }
 
 void AccountManager::eraseItem()
@@ -140,13 +144,13 @@ void AccountManager::eraseItem()
 
 void AccountManager::showList()
 {
-	cout << "============================================================" << endl;
-	cout << setw(10) << "아이디" << setw(15) << "비밀번호" << setw(10) << "로그인" << setw(10) << "현재 잔액" << setw(13) << "남은 시간" << endl;
-	cout << "============================================================" << endl;
+	cout << "================================================================================" << endl;
+	cout << setw(10) << "아이디" << setw(15) << "비밀번호" << setw(8) << "이름" << setw(14) << "전화번호" << setw(10) << "로그인" << setw(10) << "현재 잔액" << setw(13) << "남은 시간" << endl;
+	cout << "================================================================================" << endl;
 	for (vector<Account*>::size_type i = 0; i < vec->size(); i++)
 	{
 		string money = to_string((*vec)[i]->getMoney()) + "원";
-		cout << setw(10) << (*vec)[i]->getId() << setw(15) << (*vec)[i]->getPassword() << setw(10) << ((*vec)[i]->getIsUse() ? "로그인" : "로그아웃") << setw(10) << money;
+		cout << setw(10) << (*vec)[i]->getId() << setw(15) << (*vec)[i]->getPassword() << setw(8) << (*vec)[i]->getName() << setw(14) << (*vec)[i]->getPhone() << setw(10) << ((*vec)[i]->getIsUse() ? "로그인" : "로그아웃") << setw(10) << money;
 		if ((*vec)[i]->getType().compare("Admin"))
 		{
 			string time = to_string((*vec)[i]->getHour()) + "시간 " + to_string((*vec)[i]->getMinute()) + "분";
@@ -154,7 +158,7 @@ void AccountManager::showList()
 		}
 		cout << endl;
 	}
-	cout << "============================================================" << endl << endl;
+	cout << "================================================================================" << endl << endl;
 }
 
 void AccountManager::modifyItem()

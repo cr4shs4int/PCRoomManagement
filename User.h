@@ -9,7 +9,7 @@ using std::vector;
 
 class User : public Account {
 public:
-	User(string id, string password, int money = 0, int remainingTime = 0) : Account(id, password, money, remainingTime) { }
+	User(string id, string password, string name = "없음", string phone = "없음", int money = 0, int remainingTime = 0) : Account(id, password, name, phone, money, remainingTime) { }
 
 	void order(vector<Dessert>);
 

@@ -6,7 +6,7 @@ void User::order(vector<Dessert> vec) {
 	int menu;
 
 	cout << "* 메뉴를 선택하세요: "; cin >> menu;
-	if (menu >= 1 && menu <= vec.size())
+	if (menu >= 1 && menu <= (signed)vec.size())
 	{
 		if (vec[menu - 1].getPrice() > getMoney())
 		{
