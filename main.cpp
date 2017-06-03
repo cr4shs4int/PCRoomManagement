@@ -8,7 +8,7 @@ using namespace std;
 
 int main()
 {
-	int choice, price, temp;
+	int choice;
 	bool isRun = true, isBack = false;
 	User* pUser; Account *pAccount;
 	string name;
@@ -43,7 +43,7 @@ int main()
 					bool isLogout = false;
 
 					while (!isLogout) {
-						cout << "1. 상품관리 2. 로그아웃" << endl;
+						cout << "1. 상품관리 2. 계정관리 3. 로그아웃" << endl;
 						cout << "메뉴를 선택하세요: "; cin >> choice;
 						cout << endl;
 
@@ -65,6 +65,22 @@ int main()
 								}
 								break;
 							case 2:
+								isBack = false;
+								while (!isBack) {
+									cout << "1. 계정조회 2. 계정수정 3. 계정추가 4. 계정삭제 5. 돌아가기" << endl;
+									cout << "메뉴를 선택하세요: "; cin >> choice;
+									cout << endl;
+
+									switch (choice) {
+										case 1: acManager.showList(); break;
+										case 2: acManager.modifyItem(); break;
+										case 3: acManager.addItem(); break;
+										case 4: acManager.eraseItem(); break;
+										case 5: isBack = true; break;
+									}
+								}
+								break;
+							case 3:
 								acManager.logout(pAccount);
 								isLogout = true;
 								break;

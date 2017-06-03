@@ -13,6 +13,10 @@ public:
 	AccountManager(vector<Account*>*);
 	~AccountManager();
 
+	void addItem();
+	void modifyItem();
+	void eraseItem();
+	void showList();
 	void fileRead();
 	void fileWrite();
 	Account* search(string);

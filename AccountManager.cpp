@@ -1,5 +1,6 @@
 #include <fstream>
 #include <iostream>
+#include <iomanip>
 #include "AccountManager.h"
 using namespace std;
 
@@ -95,4 +96,79 @@ void AccountManager::registerAccount()
 	cout << "* 비밀번호: "; cin >> password;
 	vec->push_back(new User(id, password));
 	cout << "회원가입이 완료되었습니다." << endl << endl;
+}
+
+void AccountManager::addItem()
+{
+	string id, password;
+
+	cout << "* 추가할 계정의 아이디: "; cin >> id;
+	if (search(id) != nullptr)
+	{
+		cout << "* 계정 목록에 이미 입력하신 계정의 아이디가 존재합니다!" << endl << endl;
+		return;
+	}
+	cout << "* 추가할 계정의 비밀번호: "; cin >> password;
+	cout << "* 계정 " << id << "이 목록에 추가되었습니다." << endl << endl;
+
+	(*vec).push_back(new User(id, password));
+}
+
+void AccountManager::eraseItem()
+{
+	string id;
+	Account *pAccount;
+
+	cout << "* 삭제할 계정의 아이디: "; cin >> id;
+	
+	for (int i = 0; i < (signed)vec->size(); i++)
+	{
+		if (!(*vec)[i]->getId().compare(id)) {
+			if (!(*vec)[i]->getType().compare("Admin"))
+			{
+				cout << "* 관리자 계정을 삭제할 수는 없습니다." << endl << endl;
+				return;
+			}
+			cout << "* 계정 " << id << "이 삭제되었습니다." << endl << endl;
+			delete (*vec)[i];
+			(*vec).erase((*vec).begin() + i);
+			return;
+		}
+	}
+	cout << "* 입력하신 아이디를 가진 계정을 찾을 수 없었습니다." << endl << endl;
+}
+
+void AccountManager::showList()
+{
+	cout << "================================================" << endl;
+	cout << setw(10) << "아이디" << setw(15) << "비밀번호" << setw(10) << "로그인" << setw(13) << "남은 시간" << endl;
+	cout << "================================================" << endl;
+	for (vector<Account*>::size_type i = 0; i < vec->size(); i++)
+	{
+		cout << setw(10) << (*vec)[i]->getId() << setw(15) << (*vec)[i]->getPassword() << setw(10) << ((*vec)[i]->getIsUse() ? "로그인" : "로그아웃");
+		if ((*vec)[i]->getType().compare("Admin"))
+		{
+			string time = to_string((*vec)[i]->getHour()) + "시간 " + to_string((*vec)[i]->getMinute()) + "분";
+			cout << setw(13) << time;
+		}
+		cout << endl;
+	}
+	cout << "================================================" << endl << endl;
+}
+
+void AccountManager::modifyItem()
+{
+	string id, password;
+	User *pUser;
+
+	cout << "* 수정할 계정의 아이디: "; cin >> id;
+
+	Account* pAccount = search(id);
+	if (pAccount != nullptr && !pAccount->getType().compare("User") && (pUser = static_cast<User*>(pAccount)))
+	{
+		cout << "* 수정할 계정의 비밀번호: "; cin >> password;
+		cout << "* " << id << "의 비밀번호가 정상적으로 변경되었습니다." << endl << endl;
+		pUser->setPassword(password);
+	}
+	else cout << "* 입력하신 아이디를 가진 계정을 찾을 수 없었습니다." << endl << endl;
 }
