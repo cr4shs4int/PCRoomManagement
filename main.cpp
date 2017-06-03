@@ -101,7 +101,7 @@ int main()
 
 					// 로그인 후 사용자에게 맞는 메뉴를 출력한다.
 					while (!isLogout) {
-						cout << "1. 주문 2. 시간 확인 3. 로그아웃" << endl;
+						cout << "1. 주문 2. 시간 확인 3. 돌아가기 4. 로그아웃" << endl;
 						cout << "메뉴를 선택하세요: "; cin >> choice;
 						cout << endl;
 
@@ -114,6 +114,9 @@ int main()
 								cout << "* " << pUser->getHour() << "시간 " << pUser->getMinute() << "분 남았습니다." << endl << endl;
 								break;
 							case 3:
+								isLogout = true;
+								break;
+							case 4:
 								acManager.logout(pAccount);
 								isLogout = true;
 								break;
