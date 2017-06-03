@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <iomanip>
+#include "User.h"
 #include "AccountManager.h"
 using namespace std;
 
@@ -117,7 +118,6 @@ void AccountManager::addItem()
 void AccountManager::eraseItem()
 {
 	string id;
-	Account *pAccount;
 
 	cout << "* 삭제할 계정의 아이디: "; cin >> id;
 	
@@ -140,12 +140,13 @@ void AccountManager::eraseItem()
 
 void AccountManager::showList()
 {
-	cout << "================================================" << endl;
-	cout << setw(10) << "아이디" << setw(15) << "비밀번호" << setw(10) << "로그인" << setw(13) << "남은 시간" << endl;
-	cout << "================================================" << endl;
+	cout << "============================================================" << endl;
+	cout << setw(10) << "아이디" << setw(15) << "비밀번호" << setw(10) << "로그인" << setw(10) << "현재 잔액" << setw(13) << "남은 시간" << endl;
+	cout << "============================================================" << endl;
 	for (vector<Account*>::size_type i = 0; i < vec->size(); i++)
 	{
-		cout << setw(10) << (*vec)[i]->getId() << setw(15) << (*vec)[i]->getPassword() << setw(10) << ((*vec)[i]->getIsUse() ? "로그인" : "로그아웃");
+		string money = to_string((*vec)[i]->getMoney()) + "원";
+		cout << setw(10) << (*vec)[i]->getId() << setw(15) << (*vec)[i]->getPassword() << setw(10) << ((*vec)[i]->getIsUse() ? "로그인" : "로그아웃") << setw(10) << money;
 		if ((*vec)[i]->getType().compare("Admin"))
 		{
 			string time = to_string((*vec)[i]->getHour()) + "시간 " + to_string((*vec)[i]->getMinute()) + "분";
@@ -153,7 +154,7 @@ void AccountManager::showList()
 		}
 		cout << endl;
 	}
-	cout << "================================================" << endl << endl;
+	cout << "============================================================" << endl << endl;
 }
 
 void AccountManager::modifyItem()

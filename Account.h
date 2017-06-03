@@ -32,22 +32,10 @@ public:
 	virtual string getType() const = 0;
 };
 
-class User : public Account {
-public:
-	User(string id, string password, int money = 0, int remainingTime = 0) : Account(id, password, money, remainingTime) { }
-
-	void order() {
-
-	}
-
-	string getType() const { return "User"; }
-};
-
 class Admin : public Account {
 public:
 	Admin(string id, string password, int money = 0, int remainingTime = 0) : Account(id, password, money, remainingTime) { }
 
 	string getType() const { return "Admin"; }
 };
-
 #endif

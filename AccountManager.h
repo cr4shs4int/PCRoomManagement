@@ -1,12 +1,13 @@
 #ifndef ACCOUNTMANAGER_H
 #define ACCOUNTMANAGER_H
 
+#include "Manager.h"
 #include "Account.h"
 #include <vector>
 
 using std::vector;
 
-class AccountManager {
+class AccountManager : public Manager {
 private:
 	vector<Account*>* vec;
 public:

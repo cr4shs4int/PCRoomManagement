@@ -1,6 +1,7 @@
 #include <iostream>
 #include <thread>
 
+#include "User.h"
 #include "AccountManager.h"
 #include "DessertManager.h"
 // #include "CWindow.h"
@@ -61,6 +62,7 @@ int main()
 										case 3: desManager.addItem(); break;
 										case 4: desManager.eraseItem(); break;
 										case 5: isBack = true; break;
+										default: cout << "입력한 번호에 해당하는 메뉴가 존재하지 않습니다. 다시 입력해주세요." << endl << endl;
 									}
 								}
 								break;
@@ -77,6 +79,7 @@ int main()
 										case 3: acManager.addItem(); break;
 										case 4: acManager.eraseItem(); break;
 										case 5: isBack = true; break;
+										default: cout << "입력한 번호에 해당하는 메뉴가 존재하지 않습니다. 다시 입력해주세요." << endl << endl;
 									}
 								}
 								break;
@@ -105,7 +108,7 @@ int main()
 						switch (choice) {
 							case 1:
 								desManager.showList();
-								cout << "메뉴를 선택하세요: "; cin >> choice;
+								pUser->order(vdes);
 								break;
 							case 2:
 								cout << "* " << pUser->getHour() << "시간 " << pUser->getMinute() << "분 남았습니다." << endl << endl;

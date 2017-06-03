@@ -2,11 +2,12 @@
 #define DESSERTMANAGER_H
 
 #include <vector>
+#include "Manager.h"
 #include "Dessert.h"
 
 using std::vector;
 
-class DessertManager {
+class DessertManager : public Manager {
 private:
 	vector<Dessert>* vec;
 public:
