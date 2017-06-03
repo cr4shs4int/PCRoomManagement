@@ -14,6 +14,9 @@ public:
 
 	// virtual void show() const;
 
+	// setter
+	void setPrice(int price) { this->price = price; }
+
 	// getter
 	string getName() const { return name; };
 	int getPrice() const { return price; };

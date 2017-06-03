@@ -15,5 +15,6 @@ public:
 	void fileRead();
 	void fileWrite();
 	void showList();
+	int search(string);
 };
 #endif

@@ -3,15 +3,15 @@
 
 #include "AccountManager.h"
 #include "DessertManager.h"
-// #include "Dessert.h"
 // #include "CWindow.h"
 using namespace std;
 
 int main()
 {
-	int choice;
-	bool isRun = true;
+	int choice, price, temp;
+	bool isRun = true, isBack = false;
 	User* pUser; Account *pAccount;
+	string name;
 	vector<Account*> vec; AccountManager acManager(&vec);
 	vector<Dessert> vdes; DessertManager desManager(&vdes);
 
@@ -42,6 +42,75 @@ int main()
 				{
 					bool isLogout = false;
 
+					while (!isLogout) {
+						cout << "1. 상품관리 2. 로그아웃" << endl;
+						cout << "메뉴를 선택하세요: "; cin >> choice;
+						cout << endl;
+
+						switch (choice) {
+							case 1:
+								isBack = false;
+								while (!isBack) {
+									cout << "1. 상품조회 2. 상품수정 3. 상품추가 4. 상품삭제 5. 돌아가기" << endl;
+									cout << "메뉴를 선택하세요: "; cin >> choice;
+									cout << endl;
+
+									switch (choice) {
+										case 1:
+											desManager.showList(); cout << endl;
+											break;
+										case 2:
+											cout << "* 수정할 상품의 이름: "; cin >> name;
+											if ((temp = desManager.search(name)) >= 0)
+											{
+												cout << "* 수정할 상품의 가격: "; cin >> price;
+												if (price < 0) {
+													cout << "* 상품의 가격은 0원 미만일 수 없습니다." << endl << endl;
+													continue;
+												}
+												cout << "* " << name << "의 가격이 " << vdes[temp].getPrice() << "원에서 " << price << "원으로 변경되었습니다." << endl << endl;
+												vdes[temp].setPrice(price);
+											}
+											else cout << "* 입력하신 이름을 가진 상품을 찾을 수 없었습니다." << endl << endl;
+											break;
+										case 3:
+											cout << "* 추가할 상품의 이름: "; cin >> name;
+											if (desManager.search(name) != -1)
+											{
+												cout << "* 상품 목록에 이미 입력하신 상품이 있습니다!" << endl << endl;
+												continue;
+											}
+											cout << "* 추가할 상품의 가격: "; cin >> price;
+											cout << "* " << name << "(" << price << "원)이 목록에 추가되었습니다." << endl << endl;
+											{
+												Dessert obj(name, price);
+												vdes.push_back(obj);
+											}
+											break;
+										case 4:
+											cout << "* 삭제할 상품의 이름: "; cin >> name;
+
+											if ((temp = desManager.search(name)) >= 0)
+											{
+												cout << "* 상품 '" << vdes[temp].getName() << "'가 삭제되었습니다." << endl << endl;
+												vdes.erase(vdes.begin() + temp);
+											}
+											else cout << "* 입력하신 이름을 가진 상품을 찾을 수 없었습니다." << endl << endl;
+											break;
+										case 5:
+											isBack = true;
+											break;
+									}
+								}
+								break;
+							case 2:
+								acManager.logout(pAccount);
+								isLogout = true;
+								break;
+							default:
+								cout << "입력한 번호에 해당하는 메뉴가 존재하지 않습니다. 다시 입력해주세요." << endl << endl;
+						}
+					}
 					continue;
 				}
 
@@ -68,6 +137,8 @@ int main()
 								acManager.logout(pAccount);
 								isLogout = true;
 								break;
+							default:
+								cout << "입력한 번호에 해당하는 메뉴가 존재하지 않습니다. 다시 입력해주세요." << endl << endl;
 						}
 					}
 				}

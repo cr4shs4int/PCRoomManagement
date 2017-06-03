@@ -45,7 +45,15 @@ void DessertManager::showList()
 	for (vector<Dessert>::size_type i = 0; i < vec->size(); i++)
 	{
 		cout << setw(3) << i + 1 << ' ' << setw(18) << (*vec)[i].getName() << ' ' << setw(5) << (*vec)[i].getPrice() << '\t';
-		if ((i + 1) % 3 == 0) cout << endl;
+		if (((i + 1) % 3 == 0) || (i == vec->size() - 1)) cout << endl;
 	}
 	cout << "============================================================================================" << endl;
+}
+
+int DessertManager::search(string name)
+{
+	for (int i = 0; i < (signed)vec->size(); i++)
+		if (!(*vec)[i].getName().compare(name))
+			return i;
+	return -1;
 }
