@@ -57,3 +57,55 @@ int DessertManager::search(string name)
 			return i;
 	return -1;
 }
+
+void DessertManager::addItem()
+{
+	string name;
+	int price;
+
+	cout << "* 추가할 상품의 이름: "; cin >> name;
+	if (search(name) != -1)
+	{
+		cout << "* 상품 목록에 이미 입력하신 상품이 있습니다!" << endl << endl;
+		return;
+	}
+	cout << "* 추가할 상품의 가격: "; cin >> price;
+	cout << "* " << name << "(" << price << "원)이 목록에 추가되었습니다." << endl << endl;
+
+	Dessert obj(name, price);
+	(*vec).push_back(obj);
+}
+
+void DessertManager::modifyItem()
+{
+	string name;
+	int temp, price;
+
+	cout << "* 수정할 상품의 이름: "; cin >> name;
+	if ((temp = search(name)) >= 0)
+	{
+		cout << "* 수정할 상품의 가격: "; cin >> price;
+		if (price < 0) {
+			cout << "* 상품의 가격은 0원 미만일 수 없습니다." << endl << endl;
+			return;
+		}
+		cout << "* " << name << "의 가격이 " << (*vec)[temp].getPrice() << "원에서 " << price << "원으로 변경되었습니다." << endl << endl;
+		(*vec)[temp].setPrice(price);
+	}
+	else cout << "* 입력하신 이름을 가진 상품을 찾을 수 없었습니다." << endl << endl;
+}
+
+void DessertManager::eraseItem()
+{
+	string name;
+	int temp;
+
+	cout << "* 삭제할 상품의 이름: "; cin >> name;
+
+	if ((temp = search(name)) >= 0)
+	{
+		cout << "* 상품 '" << (*vec)[temp].getName() << "'가 삭제되었습니다." << endl << endl;
+		(*vec).erase((*vec).begin() + temp);
+	}
+	else cout << "* 입력하신 이름을 가진 상품을 찾을 수 없었습니다." << endl << endl;
+}

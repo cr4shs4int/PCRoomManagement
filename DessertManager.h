@@ -12,6 +12,10 @@ private:
 public:
 	DessertManager(vector<Dessert>*);
 
+	void addItem();
+	void modifyItem();
+	void eraseItem();
+	
 	void fileRead();
 	void fileWrite();
 	void showList();
